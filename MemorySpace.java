@@ -57,7 +57,7 @@ public class MemorySpace {
 	 *        the length (in words) of the memory block that has to be allocated
 	 * @return the base address of the allocated block, or -1 if unable to allocate
 	 */
-public boolean malloc(int length) {
+public int malloc(int length) {
     Node current = freeList.getFirst();
     while (current != null) {
         MemoryBlock block = current.block;
@@ -72,14 +72,13 @@ public boolean malloc(int length) {
                 block.length -= length;     
             }
 
-            return true; 
+            return allocatedBlock.baseAddress; 
         }
         current = current.next;
     }
 
-    return false; 
+    return -1; 
 }
-
 
 
 	/**
