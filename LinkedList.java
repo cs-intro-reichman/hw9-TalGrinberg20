@@ -51,7 +51,7 @@ public class LinkedList {
      */        
     public Node getNode(int index) {
         if (index < 0 || index >= size) {
-            throw new IllegalArgumentException("Index must be between 0 and size - 1");
+    		throw new IllegalArgumentException("index must be between 0 and size");
         }
         Node current = first;
         for (int i = 0; i < index; i++) {
