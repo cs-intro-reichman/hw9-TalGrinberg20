@@ -18,7 +18,7 @@ public class MemorySpace {
 	 *            the size of the memory space to be managed
 	 */
 	public MemorySpace(int maxSize) {
-		// initiallizes an empty list of allocated blocks.
+		// Initializes an empty list of allocated blocks.
 		allocatedList = new LinkedList();
 	    // Initializes a free list containing a single block which represents
 	    // the entire memory. The base address of this single initial block is
@@ -57,9 +57,26 @@ public class MemorySpace {
 	 *        the length (in words) of the memory block that has to be allocated
 	 * @return the base address of the allocated block, or -1 if unable to allocate
 	 */
-	public int malloc(int length) {		
-		//// Replace the following statement with your code
-		return -1;
+	public int malloc(int length) {
+		Node current = freeList.getFirst();
+		while (current != null) {
+			MemoryBlock block = current.block;
+			if (block.length >= length) {
+				MemoryBlock allocatedBlock = new MemoryBlock(block.baseAddress, length);
+				allocatedList.addLast(allocatedBlock);
+
+				if (block.length == length) {
+					freeList.remove(current);
+				} else {
+					block.baseAddress += length;
+					block.length -= length;
+				}
+
+				return allocatedBlock.baseAddress;
+			}
+			current = current.next;
+		}
+		return -1; // No suitable block found
 	}
 
 	/**
@@ -71,7 +88,17 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		//// Write your code here
+		Node current = allocatedList.getFirst();
+		while (current != null) {
+			MemoryBlock block = current.block;
+			if (block.baseAddress == address) {
+				allocatedList.remove(current);
+				freeList.addLast(block);
+				return;
+			}
+			current = current.next;
+		}
+		throw new IllegalArgumentException("No allocated block with the given address found.");
 	}
 	
 	/**
