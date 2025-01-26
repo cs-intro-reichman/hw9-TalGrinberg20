@@ -66,20 +66,18 @@ public int malloc(int length) {
             allocatedList.addLast(allocatedBlock);
 
             if (block.length == length) {
-                freeList.remove(current); 
+                freeList.remove(current); // Remove exact match
             } else {
-                block.baseAddress += length; 
-                block.length -= length;     
+                block.baseAddress += length; // Update free block
+                block.length -= length;
             }
 
-            return allocatedBlock.baseAddress; 
+            return allocatedBlock.baseAddress; // Return allocated address
         }
         current = current.next;
     }
-
-    return -1; 
+    return -1; // Not enough space
 }
-
 
 	/**
 	 * Frees the memory block whose base address equals the given address.
@@ -90,19 +88,19 @@ public int malloc(int length) {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		Node current = allocatedList.getFirst();
-		while (current != null) {
-			MemoryBlock block = current.block;
-			if (block.baseAddress == address) {
-				allocatedList.remove(current);
-				freeList.addLast(block);
-				return;
-			}
-			current = current.next;
-		}
-		throw new IllegalArgumentException("No allocated block with the given address found.");
-	}
-	
+    Node current = allocatedList.getFirst();
+    while (current != null) {
+        MemoryBlock block = current.block;
+        if (block.baseAddress == address) {
+            allocatedList.remove(current); // Remove from allocated list
+            freeList.addLast(block); // Add to free list
+            return;
+        }
+        current = current.next;
+    }
+    throw new IllegalArgumentException("index must be between 0 and size");
+}
+
 	/**
 	 * A textual representation of the free list and the allocated list of this memory space, 
 	 * for debugging purposes.
@@ -117,7 +115,20 @@ public int malloc(int length) {
 	 * In this implementation Malloc does not call defrag.
 	 */
 	public void defrag() {
-		/// TODO: Implement defrag test
-		//// Write your code here
-	}
+    if (freeList.getSize() <= 1) return; // Nothing to defrag
+
+    Node current = freeList.getFirst();
+    while (current != null && current.next != null) {
+        MemoryBlock currentBlock = current.block;
+        MemoryBlock nextBlock = current.next.block;
+
+        if (currentBlock.baseAddress + currentBlock.length == nextBlock.baseAddress) {
+            currentBlock.length += nextBlock.length; // Merge blocks
+            freeList.remove(current.next); // Remove merged block
+        } else {
+            current = current.next;
+        }
+    }
+}
+
 }
