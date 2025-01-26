@@ -158,30 +158,34 @@ public class LinkedList {
      *        the node that will be removed from this list
      */
     public void remove(Node node) {
-        if (node == null || size == 0) {
-            return;
-        }
-        if (node == first) { // Remove first node
-            first = first.next;
-            if (first == null) {
-                last = null; // List is now empty
-            }
-        } else {
-            Node previous = null;
-            Node current = first;
-            while (current != null && current != node) {
-                previous = current;
-                current = current.next;
-            }
-            if (current == node) {
-                previous.next = current.next;
-                if (current == last) {
-                    last = previous; // Update last if the last node was removed
-                }
-            }
-        }
-        size--;
+    if (node == null) {
+        throw new NullPointerException("NullPointerException!");
     }
+    if (size == 0) {
+        return;
+    }
+    if (node == first) { // Remove first node
+        first = first.next;
+        if (first == null) {
+            last = null; // List is now empty
+        }
+    } else {
+        Node previous = null;
+        Node current = first;
+        while (current != null && current != node) {
+            previous = current;
+            current = current.next;
+        }
+        if (current == node) {
+            previous.next = current.next;
+            if (current == last) {
+                last = previous; // Update last if the last node was removed
+            }
+        }
+    }
+    size--;
+}
+
 
     /**
      * Removes from this list the node which is located at the given index.
