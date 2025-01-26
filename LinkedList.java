@@ -206,13 +206,17 @@ public class LinkedList {
      * @throws IllegalArgumentException
      *         if the given memory block is not in this list
      */
-    public void remove(MemoryBlock block) {
-        int index = indexOf(block);
-        if (index == -1) {
-            throw new IllegalArgumentException("Block not found in the list");
-        }
-        remove(index);
-    }    
+ public void remove(MemoryBlock block) {
+    if (block == null) {
+        throw new IllegalArgumentException("index must be between 0 and size");
+    }
+    int index = indexOf(block);
+    if (index == -1) {
+        throw new IllegalArgumentException("index must be between 0 and size");
+    }
+    remove(index);
+}
+
 
     /**
      * Returns an iterator over this list, starting with the first element.
