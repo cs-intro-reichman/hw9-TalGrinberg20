@@ -66,18 +66,19 @@ public int malloc(int length) {
             allocatedList.addLast(allocatedBlock);
 
             if (block.length == length) {
-                freeList.remove(current); // Remove exact match
+                freeList.remove(current); 
             } else {
-                block.baseAddress += length; // Update free block
+                block.baseAddress += length; 
                 block.length -= length;
             }
 
-            return allocatedBlock.baseAddress; // Return allocated address
+            return allocatedBlock.baseAddress; 
         }
         current = current.next;
     }
-    return -1; // Not enough space
+    return -1; 
 }
+
 
 	/**
 	 * Frees the memory block whose base address equals the given address.
@@ -92,14 +93,15 @@ public int malloc(int length) {
     while (current != null) {
         MemoryBlock block = current.block;
         if (block.baseAddress == address) {
-            allocatedList.remove(current); // Remove from allocated list
-            freeList.addLast(block); // Add to free list
+            allocatedList.remove(current); 
+            freeList.addLast(block); 
             return;
         }
         current = current.next;
     }
     throw new IllegalArgumentException("index must be between 0 and size");
 }
+
 
 	/**
 	 * A textual representation of the free list and the allocated list of this memory space, 
@@ -130,5 +132,6 @@ public int malloc(int length) {
         }
     }
 }
+
 
 }
