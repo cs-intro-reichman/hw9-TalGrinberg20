@@ -228,16 +228,15 @@ public class LinkedList {
     /**
      * A textual representation of this list, for debugging.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Node current = first;
-        while (current != null) {
-            sb.append(current.toString());
-            if (current.next != null) {
-                sb.append(" -> ");
-            }
-            current = current.next;
-        }
-        return sb.toString();
-    }
+   
+public String toString() {
+String s = "";
+Node current = first;
+while (current != null) {
+s = s + current.block + " ";
+current = current.next;
+}
+return s;
+}
+
 }
